@@ -170,10 +170,7 @@ async function main() {
 
      await getSongs("songs/cs");
     // console.log(songs);
-    if (!songs || songs.length === 0) {
-        console.error("No songs found in songs/ncs");
-        return;
-    }
+    
 
     playMusic(songs[0],true)
 
