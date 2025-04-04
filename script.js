@@ -107,7 +107,7 @@ const playMusic = (track,pause=false) => {
         currentSong.play();
         playy.src="pause.svg";
     }
-    document.querySelector(".songPic").innerHTML=`<img src="music.svg" style="width: 34px;" alt="">`+track.slice(0, -4)
+    document.querySelector(".songPic").innerHTML=`<img src="music.svg" style="width: 34px;" alt="">`+ track.slice(0, -4)
     document.querySelector(".info").innerHTML="00:00/00:00"
 
     
