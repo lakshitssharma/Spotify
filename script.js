@@ -170,7 +170,7 @@ async function main() {
 
      await getSongs("songs/cs");
     // console.log(songs);
-    
+    console.log("🎵 Loaded songs:", songs); 
 
     playMusic(songs[0],true)
 
