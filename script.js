@@ -30,151 +30,108 @@ window.onload = applyRandomGradient;
 
 
 
-let currentSong = new Audio()
-let Songs;
-let currFolder;
-
-function secondsToMinutesSeconds(seconds) {
-    if (isNaN(seconds) || seconds < 0) {
-        return "00:00";
-    }
-
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-
-    const formattedMinutes = String(minutes).padStart(2, '0');
-    const formattedSeconds = String(remainingSeconds).padStart(2, '0');
-
-    return `${formattedMinutes}:${formattedSeconds}`;
-}
+const username = "lakshitssharma110910"; // GitHub username
+const repo = "music-player";             // Your repo name
+const branch = "main";                   // Repo branch (likely 'main')
+let currFolder = "docs/Shubh";
+let Songs = [];
 
 async function getSongs(folder) {
     currFolder = folder;
-    let a = await fetch(`/${currFolder}/`);
-    let response = await a.text();
+    const apiURL = `https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
+    const response = await fetch(apiURL);
+    const data = await response.json();
 
-    let parser = new DOMParser();
-    let doc = parser.parseFromString(response, "text/html");
-    let as = doc.getElementsByTagName("a");
+    Songs = data
+        .filter(file => file.name.endsWith(".mp3") || file.name.endsWith(".wav"))
+        .map(file => file.name);
 
-    Songs = [];
-    for (let index = 0; index < as.length; index++) {
-        let href = as[index].getAttribute("href");
-        if (href) {
-            href = href.replace(/\\/g, "/").replace("//Songs", "/Songs");
-            if (href.endsWith(".mp3") || href.endsWith(".wav")) {
-                Songs.push(href.replace(`/${currFolder}/`, ""));
-            }
-        }
-    }
-
-    let songUL = document.querySelector(".songlist ul");
+    const songUL = document.querySelector(".songlist ul");
     songUL.innerHTML = "";
 
     for (const song of Songs) {
         songUL.innerHTML += `
-        <li> 
-            <img src="music.svg" style="width: 30px;" alt="">
-            <div class="infosong">
-                <div class="songname">${song.replace(".mp3", "").replace(".wav", "")}</div>
-                <div class="artistname">Lakshit</div>
-            </div>
-            <div class="playnow">
-                
-                <img src="player.svg" style="width: 24px;" alt="">
-            </div>
-        </li>`;
+            <li> 
+                <img src="music.svg" style="width: 30px;" alt="">
+                <div class="infosong">
+                    <div class="songname">${song.replace(".mp3", "").replace(".wav", "")}</div>
+                    <div class="artistname">Lakshit</div>
+                </div>
+                <div class="playnow">
+                    <img src="player.svg" style="width: 24px;" alt="">
+                </div>
+            </li>`;
     }
 
-    Array.from(document.querySelector(".songlist").getElementsByTagName("li")).forEach(e => {
+    document.querySelectorAll(".songlist li").forEach(e => {
         e.addEventListener("click", () => {
-            let songName = e.querySelector(".infosong").firstElementChild.innerHTML.trim();
-            let originalSong = Songs.find(s => s.startsWith(songName));
-            console.log(`Playing: ${originalSong}`);
-            playMusic(originalSong);
+            const songName = e.querySelector(".songname").textContent.trim();
+            const matched = Songs.find(s => s.startsWith(songName));
+            playMusic(matched);
         });
     });
 
-    return Songs;  // ✅ Fix: Return Songs so it can be used elsewhere
+    return Songs;
 }
 
+const playMusic = (track, pause = false) => {
+    const rawURL = `https://raw.githubusercontent.com/${username}/${repo}/${branch}/${currFolder}/${track}`;
+    currentSong.src = rawURL;
 
-const playMusic = (track,pause=false) => {
-    // let audio = new Audio(`/Songs/${track}`);
-    // audio.play(); // ✅ Corrected function call
-    currentSong.src = `/${currFolder}/${track}`
     if (!pause) {
         currentSong.play();
-        playy.src="pause.svg";
+        playy.src = "pause.svg";
     }
-    document.querySelector(".songPic").innerHTML=`<img src="music.svg" style="width: 34px;" alt="">`+ track.slice(0, -4)
-    document.querySelector(".info").innerHTML="00:00/00:00"
 
-    
-}
+    document.querySelector(".songPic").innerHTML = `<img src="music.svg" style="width: 34px;" alt="">` + track.slice(0, -4);
+    document.querySelector(".info").innerHTML = "00:00/00:00";
+};
 
-async function displayAlbums(params) {
-    let a = await fetch(`/Songs/`);
-    let response = await a.text();
+async function displayAlbums() {
+    const albumsAPI = `https://api.github.com/repos/${username}/${repo}/contents/docs`;
+    const response = await fetch(albumsAPI);
+    const folders = await response.json();
 
-    let parser = new DOMParser();
-    let doc = parser.parseFromString(response, "text/html");
-    let as = doc.getElementsByTagName("a");
-    let cardContainer= document.querySelector(".cardContainer")
-    let array = Array.from(as)
-    for (let index = 0; index < array.length; index++) {
-        const e = array[index]; 
-        if (e.href.includes("/Songs/")) {
-            let folder = e.href.split("/").slice(-2)[0]
-            // Get the metadata of the folder
-            let a = await fetch(`/Songs/${folder}/info.json`)
-            let response = await a.json(); 
-            cardContainer.innerHTML = cardContainer.innerHTML + `<div data-folder="${folder}" class="card trans border ">
-                        <div class="play"> <svg viewBox="-0.5 0 8 8" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
-                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                <g id="SVGRepo_iconCarrier">
-                                    <title>play [#1001]</title>
-                                    <desc>Created with Sketch.</desc>
-                                    <defs> </defs>
-                                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                        <g id="Dribbble-Light-Preview" transform="translate(-427.000000, -3765.000000)"
-                                            fill="#000000">
-                                            <g id="icons" transform="translate(56.000000, 160.000000)">
-                                                <polygon id="play-[#1001]" points="371 3605 371 3613 378 3609">
-                                                </polygon>
-                                            </g>
-                                        </g>
-                                    </g>
-                                </g>
-                            </svg></div>
-                        <img src="/Songs/${folder}/cover.jpeg" alt="">
-                        <h2>${response.title}</h2>
-                        <p>${response.description}</p>
-                    </div>`
+    const cardContainer = document.querySelector(".cardContainer");
+    for (const folder of folders) {
+        if (folder.type === "dir") {
+            try {
+                const infoURL = `https://raw.githubusercontent.com/${username}/${repo}/${branch}/docs/${folder.name}/info.json`;
+                const res = await fetch(infoURL);
+                const info = await res.json();
+
+                cardContainer.innerHTML += `
+                    <div data-folder="docs/${folder.name}" class="card trans border">
+                        <div class="play">
+                            <svg viewBox="-0.5 0 8 8" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                                <polygon points="371 3605 371 3613 378 3609"></polygon>
+                            </svg>
+                        </div>
+                        <img src="https://raw.githubusercontent.com/${username}/${repo}/${branch}/docs/${folder.name}/cover.jpeg" alt="">
+                        <h2>${info.title}</h2>
+                        <p>${info.description}</p>
+                    </div>`;
+            } catch (e) {
+                console.error(`Skipping folder ${folder.name}:`, e);
+            }
         }
-    } 
-    // Load the playlist whenever card is clicked 
-Array.from(document.getElementsByClassName("card")).forEach(e=>{
-    e.addEventListener("click",async item=>{
-        Songs = await getSongs(`Songs/${item.currentTarget.dataset.folder}`);
-        playMusic(Songs[0])
-        
-    })
-})
+    }
+
+    document.querySelectorAll(".card").forEach(e => {
+        e.addEventListener("click", async item => {
+            const folder = item.currentTarget.dataset.folder;
+            Songs = await getSongs(folder);
+            playMusic(Songs[0]);
+        });
+    });
 }
 
 async function main() {
-
-
-     await getSongs("Songs/Shubh");
-    // console.log(Songs);
-
-    playMusic(Songs[0],true)
-
-    // Display all the albums on the page
+    await getSongs("docs/Shubh");
+    playMusic(Songs[0], true);
     displayAlbums();
+
+
    
 
     // Play event listener 
