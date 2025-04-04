@@ -50,7 +50,7 @@ function secondsToMinutesSeconds(seconds) {
 
 async function getSongs(folder) {
     currFolder = folder;
-    let a = await fetch(`http://127.0.0.1:3000/${currFolder}/`);
+    let a = await fetch(`/${currFolder}/`);
     let response = await a.text();
 
     let parser = new DOMParser();
@@ -114,7 +114,7 @@ const playMusic = (track,pause=false) => {
 }
 
 async function displayAlbums(params) {
-    let a = await fetch(`http://127.0.0.1:3000/songs/`);
+    let a = await fetch(`/songs/`);
     let response = await a.text();
 
     let parser = new DOMParser();
@@ -127,7 +127,7 @@ async function displayAlbums(params) {
         if (e.href.includes("/songs/")) {
             let folder = e.href.split("/").slice(-2)[0]
             // Get the metadata of the folder
-            let a = await fetch(`http://127.0.0.1:3000/songs/${folder}/info.json`)
+            let a = await fetch(`/songs/${folder}/info.json`)
             let response = await a.json(); 
             cardContainer.innerHTML = cardContainer.innerHTML + `<div data-folder="${folder}" class="card trans border ">
                         <div class="play"> <svg viewBox="-0.5 0 8 8" version="1.1" xmlns="http://www.w3.org/2000/svg"
