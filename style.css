@@ -368,6 +368,7 @@ body {
 #prevv,
 #nextt {
     width: 14px;
+    filter:invert(0.3)
 }
 
 #playy {
