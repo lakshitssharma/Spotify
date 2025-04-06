@@ -278,17 +278,23 @@ document.querySelector(".close").addEventListener("click", () => {
 // Detect clicks on navbar only if sidebar is open
 if (window.matchMedia("(max-width: 850px)").matches) {
     document.addEventListener("click", (event) => {
-        let leftPanel = document.querySelector(".left");
-        let navbar = document.querySelector(".navbar");
-        let right = document.querySelector(".right");
+        const leftPanel = document.querySelector(".left");
+        const navbar = document.querySelector(".navbar");
+        const right = document.querySelector(".right");
+        const hamburger = document.querySelector(".hamburger");
 
-        if ((getComputedStyle(leftPanel).left === "0px" && navbar.contains(event.target)) ||
-            (getComputedStyle(leftPanel).left === "0px" && right.contains(event.target))) {
+        const isSidebarOpen = getComputedStyle(leftPanel).left === "0px";
+        const clickedOutsideSidebar = !leftPanel.contains(event.target);
+
+        if (isSidebarOpen && (navbar.contains(event.target) || right.contains(event.target) || clickedOutsideSidebar)) {
             leftPanel.style.left = "-150%";
-            document.querySelector(".hamburger").style.visibility = "visible";
+            hamburger.style.visibility = "visible";
         }
     });
 }
+
+
+
 
 // Add event listener to next and previous 
 prevv.addEventListener("click", async () => {
