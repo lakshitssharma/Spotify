@@ -561,13 +561,14 @@ body {
         height: 110px;
         gap: 21px;
         position: relative;
-        bottom: 55px;
+        bottom: 85px;
         background-color: black;
         width: auto;
     }
 
     .seekbar {
         width: 80vw;
+        
     }
 
     #prevv,
