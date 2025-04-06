@@ -1,0 +1,34 @@
+{
+    "Shubh": [
+        {
+            "title":"Shubh",
+            "description":"Desi Vibes, Global Rhymes"
+        },
+        "Songs/Shubh/Bandana.wav",
+        "Songs/Shubh/fell for you.mp3",
+        "Songs/Shubh/King Shit.mp3",
+        "Songs/Shubh/One Love.wav",
+        "Songs/Shubh/Cover.jpeg"
+    ],
+    "Angrezi": [
+        {
+            "title": "अंग्रेज़ी Medium",
+            "description": "Love Beyond Language"
+        },
+        "Songs/Angrezi/Ek Zindagi.mp3",
+        "Songs/Angrezi/Kudi Nu Nachne De.mp3",
+        "Songs/Angrezi/Nachan Nu Jee Karda.mp3",
+        "Songs/Angrezi/Cover.jpeg"
+        
+    ],
+    "cs": [
+        {
+            "title":"Love Aaj kal",
+            "description":"Timeless Tales of Love"
+        },
+        "Songs/cs/Haan Main Galat.mp3",
+        "Songs/cs/Shayad.mp3",
+        "Songs/cs/yeh Dooriyan.mp3",
+        "Songs/cs/Cover.jpeg"
+    ]
+}

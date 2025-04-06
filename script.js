@@ -48,127 +48,126 @@ function secondsToMinutesSeconds(seconds) {
     return `${formattedMinutes}:${formattedSeconds}`;
 }
 
-async function getSongs(folder) {
-    currFolder = folder;
-    let a = await fetch(`/${currFolder}/`);
-    let response = await a.text();
+async function getSongs(folder = "Shubh") {
+    currFolder = folder; // ✅ ensure it's updated for playMusic()
 
-    let parser = new DOMParser();
-    let doc = parser.parseFromString(response, "text/html");
-    let as = doc.getElementsByTagName("a");
+    let res = await fetch("songs.json");
+    let data = await res.json();
 
-    Songs = [];
-    for (let index = 0; index < as.length; index++) {
-        let href = as[index].getAttribute("href");
-        if (href) {
-            href = href.replace(/\\/g, "/").replace("//Songs", "/Songs");
-            if (href.endsWith(".mp3") || href.endsWith(".wav")) {
-                Songs.push(href.replace(`/${currFolder}/`, ""));
-            }
-        }
+    if (!data.hasOwnProperty(folder)) {
+        console.error(`Folder '${folder}' not found in songs.json`);
+        return [];
     }
+
+    let folderData = data[folder];
+    let metadata = folderData[0];
+    let songPaths = folderData.slice(1).filter(f => f.endsWith(".mp3") || f.endsWith(".wav"));
 
     let songUL = document.querySelector(".songlist ul");
     songUL.innerHTML = "";
 
-    for (const song of Songs) {
+    for (const songPath of songPaths) {
+        let fileName = songPath.split("/").pop(); // eg: One Love.wav
+        let songName = fileName.replace(".mp3", "").replace(".wav", "");
+
         songUL.innerHTML += `
         <li> 
             <img src="music.svg" style="width: 30px;" alt="">
             <div class="infosong">
-                <div class="songname">${song.replace(".mp3", "").replace(".wav", "")}</div>
+                <div class="songname">${songName}</div>
                 <div class="artistname">Lakshit</div>
             </div>
             <div class="playnow">
-                
                 <img src="player.svg" style="width: 24px;" alt="">
             </div>
         </li>`;
     }
 
-    Array.from(document.querySelector(".songlist").getElementsByTagName("li")).forEach(e => {
-        e.addEventListener("click", () => {
-            let songName = e.querySelector(".infosong").firstElementChild.innerHTML.trim();
-            let originalSong = Songs.find(s => s.startsWith(songName));
-            console.log(`Playing: ${originalSong}`);
-            playMusic(originalSong);
+    // Add click handlers
+    Array.from(document.querySelector(".songlist").getElementsByTagName("li")).forEach((li, i) => {
+        li.addEventListener("click", () => {
+            let fullPath = songPaths[i]; // already complete path
+            console.log(`Playing: ${fullPath}`);
+            playMusic(fullPath); // You must define this function
         });
     });
 
-    return Songs;  // ✅ Fix: Return Songs so it can be used elsewhere
+    return songPaths;
 }
 
 
-const playMusic = (track,pause=false) => {
-    // let audio = new Audio(`/Songs/${track}`);
-    // audio.play(); // ✅ Corrected function call
-    currentSong.src = `/${currFolder}/${track}`
+
+
+const playMusic = (track, pause = false) => {
+    currentSong.src = `/${track}`;
+    
     if (!pause) {
         currentSong.play();
-        playy.src="pause.svg";
+        playy.src = "pause.svg";
     }
-    document.querySelector(".songPic").innerHTML=`<img src="music.svg" style="width: 34px;" alt="">`+ track.slice(0, -4)
-    document.querySelector(".info").innerHTML="00:00/00:00"
 
-    
-}
+    // Extract the filename without path and extension
+    let songName = track.split("/").pop().replace(".wav", "").replace(".mp3", "");
+
+    document.querySelector(".songPic").innerHTML = `<img src="music.svg" style="width: 34px;" alt=""> ${songName}`;
+    document.querySelector(".info").innerHTML = "00:00 / 00:00";
+};
+
 
 async function displayAlbums() {
-    let a = await fetch(`/Songs/`);
-    let response = await a.text();
+    let a = await fetch("songs.json");
+let data = await a.json(); // No need for DOMParser here
 
-    let parser = new DOMParser();
-    let doc = parser.parseFromString(response, "text/html");
-    let as = doc.getElementsByTagName("a");
-    let cardContainer= document.querySelector(".cardContainer")
-    let array = Array.from(as)
-    for (let index = 0; index < array.length; index++) {
-        const e = array[index]; 
-        if (e.href.includes("/Songs/")&& !e.href.includes(".htaccess")) {
-            let folder = e.href.split("/").slice(-2)[0]
-            // Get the metadata of the folder
-            let a = await fetch(`/Songs/${folder}/info.json`)
-            let response = await a.json(); 
-            cardContainer.innerHTML = cardContainer.innerHTML + `<div data-folder="${folder}" class="card trans border ">
-                        <div class="play"> <svg viewBox="-0.5 0 8 8" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
-                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                <g id="SVGRepo_iconCarrier">
-                                    <title>play [#1001]</title>
-                                    <desc>Created with Sketch.</desc>
-                                    <defs> </defs>
-                                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                        <g id="Dribbble-Light-Preview" transform="translate(-427.000000, -3765.000000)"
-                                            fill="#000000">
-                                            <g id="icons" transform="translate(56.000000, 160.000000)">
-                                                <polygon id="play-[#1001]" points="371 3605 371 3613 378 3609">
-                                                </polygon>
-                                            </g>
-                                        </g>
-                                    </g>
-                                </g>
-                            </svg></div>
-                        <img src="/Songs/${folder}/cover.jpeg" alt="">
-                        <h2>${response.title}</h2>
-                        <p>${response.description}</p>
-                    </div>`
-        }
-    } 
-    // Load the playlist whenever card is clicked 
-Array.from(document.getElementsByClassName("card")).forEach(e=>{
-    e.addEventListener("click",async item=>{
-        Songs = await getSongs(`Songs/${item.currentTarget.dataset.folder}`);
-        playMusic(Songs[0])
-        
-    })
-})
+let cardContainer = document.querySelector(".cardContainer");
+
+// Loop through each folder in the JSON
+for (let folder in data) {
+    let info = data[folder][0]; // First element contains the title and description
+
+    cardContainer.innerHTML += `
+    <div data-folder="${folder}" class="card trans border ">
+        <div class="play"> 
+            <svg viewBox="-0.5 0 8 8" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                    <title>play [#1001]</title>
+                    <desc>Created with Sketch.</desc>
+                    <defs> </defs>
+                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <g id="Dribbble-Light-Preview" transform="translate(-427.000000, -3765.000000)"
+                            fill="#000000">
+                            <g id="icons" transform="translate(56.000000, 160.000000)">
+                                <polygon id="play-[#1001]" points="371 3605 371 3613 378 3609">
+                                </polygon>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </svg>
+        </div>
+        <img src="/Songs/${folder}/Cover.jpeg" alt="">
+        <h2>${info.title}</h2>
+        <p>${info.description}</p>
+    </div>`;
 }
+
+// Load the playlist whenever card is clicked 
+Array.from(document.getElementsByClassName("card")).forEach(e=>{
+e.addEventListener("click",async item=>{
+    Songs = await getSongs(item.currentTarget.dataset.folder);
+    playMusic(Songs[0])
+    
+})
+})
+    } 
+
 
 async function main() {
 
 
-     await getSongs("Songs/Shubh");
+    let Songs= await getSongs();
     // console.log(Songs);
 
     playMusic(Songs[0],true)
