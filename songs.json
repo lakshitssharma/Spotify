@@ -10,6 +10,18 @@
         "Songs/Shubh/One Love.wav",
         "Songs/Shubh/Cover.jpeg"
     ],
+    "rab": [
+        {
+            "title":"Rab Ne Bana di jodi",
+            "description":"Made in Heaven"
+        },
+        "Songs/rab/Dance Pe Chance.mp3",
+        "Songs/rab/Haule Haule.mp3",
+        "Songs/rab/Phir Milenge Chalte Chalte.mp3",
+        "Songs/rab/Tujh Mein Rab Dikhta Hai.mp3",
+        "Songs/rab/Cover.jpeg"
+        
+    ],
     "Angrezi": [
         {
             "title": "अंग्रेज़ी Medium",
@@ -21,6 +33,39 @@
         "Songs/Angrezi/Cover.jpeg"
         
     ],
+    "ncs": [
+        {
+            "title":"Punjabi Songs",
+            "description":"Energetic, vibrant, folk beats"
+        },
+        "Songs/ncs/Pyaar Tenu Karda Gabru.mp3",
+        "Songs/ncs/Tera Yaar Bolda.mp3",
+        "Songs/ncs/Yaar Bathere.mp3",
+        "Songs/ncs/Cover.jpeg"
+        
+    ],
+    "chhalang": [
+        {
+            "title":"Chhalang",
+            "description":" Leap of Faith"
+        },
+        "Songs/chhanlang/Care Ni Karda.mp3",
+        "Songs/chhanlang/Le Chhalaang.mp3",
+        "Songs/chhanlang/Teri Choriyaan.mp3",
+        "Songs/chhanlang/Cover.jpeg"
+        
+    ],
+    "Baaghi": [
+        {
+            "title":"Baaghi 3",
+            "description":"Get ready to fight"
+        },
+        "Songs/Baaghi/Dus Bahane 2.0.mp3",
+        "Songs/Baaghi/Bhankas.mp3",
+        "Songs/Baaghi/Get Ready To Fight Reloaded.mp3",
+        "Songs/Baaghi/Cover.jpeg"
+        
+    ],
     "cs": [
         {
             "title":"Love Aaj kal",
@@ -30,5 +75,52 @@
         "Songs/cs/Shayad.mp3",
         "Songs/cs/yeh Dooriyan.mp3",
         "Songs/cs/Cover.jpeg"
+    ],
+    "Honey": [
+        {
+            "title":"Honey Singh",
+            "description":"Beat Drop King"
+        },
+        "Songs/Honey/Angreji Beat.mp3",
+        "Songs/Honey/Desi Kalakaar.mp3",
+        "Songs/Honey/Love Dose.mp3",
+        "Songs/Honey/Jingle Bell.mp3",
+        "Songs/Honey/Cover.jpeg"
+        
+    ],
+    "Malang": [
+        {
+            "title":"Malang",
+            "description":"Unleash the Madness"
+        },
+        "Songs/Malang/Chal Ghar Chalen.mp3",
+        "Songs/Malang/Humraah.mp3",
+        "Songs/Malang/Malang (Title Track).mp3",
+        "Songs/Malang/Phir Na Milen Kabhi.mp3",
+        "Songs/Malang/Cover.jpeg"
+        
+    ],
+    "Street": [
+        {
+            "title":"Street Dancer 3d",
+            "description":"Battle Through Dance"
+        },
+        "Songs/Street/Bezubaan.mp3",
+        "Songs/Street/Garmi.mp3",
+        "Songs/Street/Illegal Weapon 2.0.mp3",
+        "Songs/Street/Muqabla.mp3",
+        "Songs/Street/Cover.jpeg"
+        
+    ],
+    "coolie": [
+        {
+            "title":"Coolie No.1",
+            "description":"Porter of Love & Laughs"
+        },
+        "Songs/coolie/Husnn Hai Suhaana New.mp3",
+        "Songs/coolie/Mirchi Lagi Toh.mp3",
+        "Songs/coolie/Mummy Kassam.mp3",
+        "Songs/coolie/Cover.jpeg"
+        
     ]
 }
