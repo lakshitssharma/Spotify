@@ -396,7 +396,7 @@ body {
     background-color: white;
     position: absolute;
     left: 0%;
-    transition: left 0.5s;
+    transition: left 0.01s;
 }
 
 .volume {

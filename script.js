@@ -220,11 +220,48 @@ async function main() {
     
 
     // Add an eventlistener to seekbar
-    document.querySelector(".seekbar").addEventListener("click", e => {
-        let percent = (e.offsetX / e.target.getBoundingClientRect().width) * 100;
-        document.querySelector(".circle").style.left = percent + "%";
-        currentSong.currentTime = ((currentSong.duration) * percent) / 100
-    })
+    const seekbar = document.querySelector(".seekbar");
+const circle = document.querySelector(".circle");
+
+let isDragging = false;
+let dragPercent = 0;
+
+// Handle clicking directly on the seekbar
+seekbar.addEventListener("click", (e) => {
+    let percent = (e.offsetX / seekbar.getBoundingClientRect().width) * 100;
+    circle.style.left = percent + "%";
+    seekbar.style.background = `linear-gradient(to right, white ${percent}%, #4D4D4D ${percent}%)`;
+    currentSong.currentTime = (currentSong.duration * percent) / 100;
+});
+
+// When user starts dragging
+circle.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    document.body.style.userSelect = "none"; // Disable accidental text select
+});
+
+// While dragging, just update UI — don't update current time yet
+document.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+
+    let rect = seekbar.getBoundingClientRect();
+    let offsetX = Math.min(Math.max(e.clientX - rect.left, 0), rect.width);
+    dragPercent = (offsetX / rect.width) * 100;
+
+    circle.style.left = dragPercent + "%";
+    seekbar.style.background = `linear-gradient(to right, white ${dragPercent}%, #4D4D4D ${dragPercent}%)`;
+});
+
+// When mouse is released, update actual song time
+document.addEventListener("mouseup", () => {
+    if (isDragging) {
+        isDragging = false;
+        document.body.style.userSelect = "auto";
+
+        currentSong.currentTime = (currentSong.duration * dragPercent) / 100;
+    }
+});
+
 
     // Add an event listener for hamburger
 document.querySelector(".hamburger").addEventListener("click", () => {
