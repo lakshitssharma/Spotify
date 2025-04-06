@@ -562,7 +562,7 @@ body {
         height: 110px;
         gap: 21px;
         position: relative;
-        bottom: -30px;
+        bottom: 0px;
         background-color: black;
         width: auto;
     }
