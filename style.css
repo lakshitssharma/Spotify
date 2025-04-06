@@ -596,6 +596,11 @@ body {
     }
 }
 @media (max-width: 850px)and (max-height: 602px) {
+    html, body {
+        height: 100%;
+        min-height: 100%;
+        overflow-x: hidden;
+    }
    
     .left {
         position: absolute;
@@ -605,7 +610,7 @@ body {
         width: 373px;
         background-color: black;
         padding: 0;
-        height: 100vh;
+        height: 100dvh;
         position: fixed;
         top: 0;
     }
@@ -640,6 +645,11 @@ body {
 
 }
 @media (max-width: 850px)and (max-height: 524px) {
+    html, body {
+        height: 100%;
+        min-height: 100%;
+        overflow-x: hidden;
+    }
    
     .left {
         position: absolute;
@@ -649,7 +659,7 @@ body {
         width: 373px;
         background-color: black;
         padding: 0;
-        height: 100vh;
+        height: 100dvh;
         position: fixed;
         top: 0;
     }
