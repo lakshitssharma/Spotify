@@ -167,7 +167,7 @@ e.addEventListener("click",async item=>{
 async function main() {
 
 
-    let Songs= await getSongs();
+     Songs= await getSongs();
     // console.log(Songs);
 
     playMusic(Songs[0],true)
@@ -253,35 +253,37 @@ if (window.matchMedia("(max-width: 850px)").matches) {
     });
 }
 
-// Add an event listener to previous and next
+// Add event listener to next and previous 
 prevv.addEventListener("click", async () => {
     console.log("Previous clicked");
 
-    let currentFilename = decodeURIComponent(currentSong.src.split("/").pop());
-    let index = Songs.indexOf(currentFilename);
+    // Extract only the relative song path that matches the Songs array (e.g., "Songs/Shubh/Bandana.wav")
+    let currentRelativePath = decodeURIComponent(currentSong.src.split("/").slice(-3).join("/"));
+    let index = Songs.indexOf(currentRelativePath);
 
-    if (index === 0) {  // If first song, go to last song
+    if (index <= 0) {  // If first song or not found
         index = Songs.length;
     }
 
-    await currentSong.pause();  // Ensure the song is paused before switching
-    playMusic(Songs[index - 1]);  // Play the previous song
+    await currentSong.pause();
+    playMusic(Songs[index - 1]);
 });
 
-// Add an event listener to next
 nextt.addEventListener("click", async () => {
     console.log("Next clicked");
 
-    let currentFilename = decodeURIComponent(currentSong.src.split("/").pop());
-    let index = Songs.indexOf(currentFilename);
+    let currentRelativePath = decodeURIComponent(currentSong.src.split("/").slice(-3).join("/"));
+    let index = Songs.indexOf(currentRelativePath);
 
-    if (index === Songs.length - 1) {  // If last song, go to first song
+    if (index === -1 || index === Songs.length - 1) {
         index = -1;
     }
 
-    await currentSong.pause();  // Ensure the song is paused before switching
-    playMusic(Songs[index + 1]);  // Play the next song
+    await currentSong.pause();
+    playMusic(Songs[index + 1]);
 });
+
+
 
 // VOLUME
 
