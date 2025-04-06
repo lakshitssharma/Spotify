@@ -234,7 +234,7 @@ document.querySelector(".hamburger").addEventListener("click", () => {
 
 // Add an event listener for close button
 document.querySelector(".close").addEventListener("click", () => {
-    document.querySelector(".left").style.left = "-100%";
+    document.querySelector(".left").style.left = "-150%";
     document.querySelector(".hamburger").style.visibility = "visible";
 });
 
@@ -247,7 +247,7 @@ if (window.matchMedia("(max-width: 850px)").matches) {
 
         if ((getComputedStyle(leftPanel).left === "0px" && navbar.contains(event.target)) ||
             (getComputedStyle(leftPanel).left === "0px" && right.contains(event.target))) {
-            leftPanel.style.left = "-100%";
+            leftPanel.style.left = "-150%";
             document.querySelector(".hamburger").style.visibility = "visible";
         }
     });

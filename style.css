@@ -478,7 +478,7 @@ body {
     .close {
         display: block;
         position: relative;
-        left: 90%;
+        left: 75%;
         top: 5px;
     }
 
@@ -529,7 +529,7 @@ body {
 
     .left {
         position: absolute;
-        left: -130%;
+        left: -150%;
         transition: all .3s;
         z-index: 1;
         width: 373px;
