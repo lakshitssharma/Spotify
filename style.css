@@ -543,6 +543,7 @@ body {
     .cardContainer {
         display: flex;
         justify-content: center;
+        max-height: 50vh;
     }
 
     .right {
@@ -561,7 +562,7 @@ body {
         height: 110px;
         gap: 21px;
         position: relative;
-        bottom: 85px;
+        bottom: 45px;
         background-color: black;
         width: auto;
     }
