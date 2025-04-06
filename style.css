@@ -595,37 +595,7 @@ body {
     }
 }
 @media (max-width: 850px)and (max-height: 602px) {
-    .hamburger {
-        display: block;
-    }
-
-    .alogo {
-        display: contents;
-    }
-
-    .navbar {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .house,
-    .search {
-        display: none;
-    }
-
-    .logo {
-        position: absolute;
-        left: 27px;
-    }
-
-    .volume {
-        display: none;
-    }
-
-    .songPic img {
-        width: 21px !important;
-    }
-
+   
     .left {
         position: absolute;
         left: -150%;
@@ -645,14 +615,9 @@ body {
         max-height: 58vh;
     }
 
-    .right {
-        width: 100vw;
-    }
+   
 
-    .controls {
-        display: flex;
-        flex-wrap: nowrap;
-    }
+   
 
     .playbar {
         display: flex;
@@ -671,25 +636,49 @@ body {
         
     }
 
-    #prevv,
-    #nextt {
-        width: 25px;
+
+}
+@media (max-width: 850px)and (max-height: 524px) {
+   
+    .left {
+        position: absolute;
+        left: -150%;
+        transition: all .3s;
+        z-index: 1;
+        width: 373px;
+        background-color: black;
+        padding: 0;
+        height: 100vh;
+        position: fixed;
+        top: 0;
     }
 
-    #playy {
-        width: 50px;
+    .cardContainer {
+        display: flex;
+        justify-content: center;
+        max-height: 58vh;
     }
 
-    .songPic {
-        max-width: 100px;
-        height: 20px;
-        padding-left: 0;
-        /* overflow-x: hidden;
-        overflow-y: hidden; */
+   
+
+   
+
+    .playbar {
+        display: flex;
+        justify-content: center;
+        width: 95vw;
+        height: 110px;
+        gap: 21px;
+        position: relative;
+        bottom: 52px;
+        background-color: black;
+        width: auto;
     }
 
-    .info {
-        width: 120px;
-        font-size: 100%;
+    .seekbar {
+        width: 80vw;
+        
     }
+
+
 }
